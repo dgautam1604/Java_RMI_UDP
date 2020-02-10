@@ -86,13 +86,21 @@ public class Client1 {
 				Registry registry = LocateRegistry.getRegistry(ConnectionNumber);
 				Manager m1 = (Manager) registry.lookup("Function");
 				if(m==1){
-					
+					System.out.println("Enter eventID, eventType, bookingCapacity in the same order");
+					Scanner scin=new Scanner(System.in);
+					m1.addEvent(scin.next(), scin.next(), scin.nextInt());
 				}
 				else if(m==2){
+					System.out.println("Enter eventID, eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					m1.removeEvent(scin.next(), scin.next());
 					
 				}
 				else if(m==3){
-					
+					System.out.println("Enter eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					m1.listEventAvailability(scin.next());
+
 				}
 				else{
 					System.out.println("Wrong Inuput");
@@ -102,19 +110,29 @@ public class Client1 {
 				
 			} else if (ch[3] == 'C') {
 				Registry registry = LocateRegistry.getRegistry(ConnectionNumber);
-				Customer c1 = (Customer) registry.lookup("Addition");
+				Customer c1 = (Customer) registry.lookup("Function");
 				
 				if(m==1){
-					
+					System.out.println("Enter customerID, eventID, eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					c1.bookEvent(scin.next(), scin.next(), scin.next());
+
 				}
 				else if(m==2){
+					System.out.println("Enter customerID");
+					Scanner scin=new Scanner(System.in);
+					c1.getBookingSchedule(scin.next());
 					
+									
 				}
 				else if(m==3){
+					System.out.println("Enter customerID, eventID, eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					c1.cancelEvent(scin.next(), scin.next(), scin.next());
 					
 				}
 				else{
-					System.out.println("Wrong Inuput");
+					System.out.println("Wrong Input");
 					System.exit(0);
 				}
 
