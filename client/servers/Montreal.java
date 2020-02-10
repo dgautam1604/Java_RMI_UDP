@@ -1,0 +1,114 @@
+package servers;
+
+import implementation.ClientImpl;
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.HashMap;
+
+
+public class Montreal {
+	public static HashMap<String, String> eventList= new HashMap<String, String>();
+	HashMap<String, Integer> a = new HashMap<String, Integer>();
+	HashMap<String, Integer> b = new HashMap<String, Integer>();
+	HashMap<String, Integer> c = new HashMap<String, Integer>();
+	
+	public static void main(String args[]) throws Exception
+	{
+		ClientImpl stub = new ClientImpl();
+		Registry registry = LocateRegistry.createRegistry(5555);
+		registry.bind("Function", stub);
+		System.out.println("Montreal Server is Up & Running");
+		
+		
+		
+		eventList.put("Conference", "a");
+		eventList.put("Trade Show", "b");
+		eventList.put("Seminar", "c");
+		
+		
+		
+	}
+	 public String getHashMap(String keyNameField) {
+
+	      String value = eventList.get(keyNameField);
+
+	      return value;
+
+	   }
+	 
+	 public void setHashMap(String var,String key,int Value) {
+		if(var=="a"){
+			if(a.get(key) != null){
+			 
+				int val=a.get(key);
+				a.replace(key, val++);
+				System.out.print("Value updated for "+key +"to "+val );
+			}
+			else{
+				a.put(key,Value); 
+				System.out.print("Added Successfully");
+			}
+		 }
+		 else if(var=="b"){
+			 if(b.get(key) != null){
+				 
+					int val=b.get(key);
+					b.replace(key, val++);
+					System.out.print("Value updated for "+key +"to "+val );
+				}
+				else{
+					b.put(key,Value); 
+					System.out.print("Added Successfully");
+				} 
+		 }
+		 else if(var=="c"){
+			 if(c.get(key) != null){
+				 
+					int val=c.get(key);
+					c.replace(key, val++);
+					System.out.print("Value updated for "+key +"to "+val );
+				}
+				else{
+					c.put(key,Value); 
+					System.out.print("Added Successfully");
+				}
+		 }
+		
+	   
+
+	   }
+	public void removeHashMap(String var, String key) {
+		if(var=="a"){
+			if(a.get(key) != null){
+				a.remove(key);
+				System.out.print("Removed "+key);
+			}
+			else{
+				 
+				System.out.print("No record");
+			}
+		 }
+		 else if(var=="b"){
+				if(b.get(key) != null){
+					b.remove(key);
+					System.out.print("Removed "+key);
+				}
+				else{
+					 
+					System.out.print("No record");
+				}
+			 }
+		 else if(var=="c"){
+				if(c.get(key) != null){
+					c.remove(key);
+					System.out.print("Removed "+key);
+				}
+				else{
+					 
+					System.out.print("No record");
+				}
+			 }
+		
+	}
+}
