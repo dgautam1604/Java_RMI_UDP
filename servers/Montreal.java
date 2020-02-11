@@ -33,7 +33,7 @@ public class Montreal {
 
 		DatagramSocket MSocket = null;
 		try {
-			MSocket = new DatagramSocket(6789);
+			MSocket = new DatagramSocket(6000);
 			// create socket at agreed port
 			byte[] buffer = new byte[1000];
 
@@ -41,9 +41,32 @@ public class Montreal {
 			while (true) {
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 				MSocket.receive(request);
-				DatagramPacket reply = new DatagramPacket(request.getData(), request.getLength(), request.getAddress(),
-						request.getPort());
-				MSocket.send(reply);
+				Montreal m=new Montreal();
+				//byte[] fullid=request.getData();
+				String fullid=new String(request.getData());
+				
+				//print via udp
+				if(fullid.equalsIgnoreCase("a") || fullid.equalsIgnoreCase("b") || fullid.equalsIgnoreCase("c")){
+					 m.a.entrySet().forEach(entry->{
+				            System.out.println(entry.getKey() + " " + entry.getValue());  
+				         });
+				}
+				else{
+					String var=fullid.substring(0, 1);
+					String eventID=fullid.substring(1, 9);
+					String customerID=fullid.substring(9, 17);
+					String status=fullid.substring(17);
+					
+					
+					m.changeHashMap(var, eventID, customerID, status);
+					
+					String done="Appointment booked in another server";
+					byte [] msg =done.getBytes();
+					DatagramPacket reply = new DatagramPacket(msg, msg.length, request.getAddress(),
+							request.getPort());
+					MSocket.send(reply);
+				}
+				
 			}
 		} catch (SocketException e) {
 			System.out.println("Socket: " + e.getMessage());
@@ -192,23 +215,22 @@ public class Montreal {
 		}
 
 	}
-	public void UDPConnect(int serverPort) {
+	public void UDPConnect(int serverPort,String combinedId) {
 		DatagramSocket aSocket = null;
 		try {
-			System.out.println("Client started");
+			System.out.println("Montreal client started");
 			aSocket = new DatagramSocket();    
-			byte [] message = "Hello".getBytes();
+			byte [] message = combinedId.getBytes();
 			
-			//InetAddress aHost = InetAddress.getByName(args[1]);
 			InetAddress aHost = InetAddress.getByName("localhost");
 			
 			//int serverPort = this.;		                                                 
 			//DatagramPacket request =new DatagramPacket(m,  args[0].length(), aHost, serverPort);
-			DatagramPacket request =new DatagramPacket(message,  "Hello".length(), aHost, serverPort);
+			DatagramPacket request =new DatagramPacket(message,  combinedId.length(), aHost, serverPort);
 			
-			
+		
 			aSocket.send(request);	
-			System.out.println("Request message sent"+ new String(request.getData()));
+			System.out.println("Request message sent via UDP"+ new String(request.getData()));
 			
 			byte[] buffer = new byte[1000];
 			DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
@@ -223,4 +245,10 @@ public class Montreal {
 		finally {if(aSocket != null) aSocket.close();}
 	}
 	
+	/*public void display(String var){
+		var.entrySet().forEach(entry->{
+            System.out.println(entry.getKey() + " " + entry.getValue());  
+         });
+	
+	}*/
 }

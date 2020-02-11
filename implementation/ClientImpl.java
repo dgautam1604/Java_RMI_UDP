@@ -57,15 +57,25 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 	public void listEventAvailability(String eventType,String serv) {
 		if(serv.equalsIgnoreCase("MTL")){
 			Montreal mn=new Montreal();
+			String var=mn.getHashMap(eventType);
+			mn.UDPConnect(6001,var);
+			mn.UDPConnect(6002,var);
 		}
 		else if(serv.equalsIgnoreCase("QUE")){
 			Quebec mn=new Quebec();
+			String var=mn.getHashMap(eventType);
+			mn.UDPConnect(6000,var);
+			mn.UDPConnect(6002,var);
 		}
 		else if (serv.equalsIgnoreCase("SHE")){
 			Sherbrooke mn=new Sherbrooke();
+			String var=mn.getHashMap(eventType);
+			mn.UDPConnect(6000,var);
+			mn.UDPConnect(6001,var);
 		}
-		String var=mn.getHashMap(eventType);
-		cm.getevents(var);
+		
+		//cm.getevents(var);
+		
 		
 	}
 
@@ -102,7 +112,7 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 			mn.changeHashMap(var, eventID, customerID, status);
 		}
 		else if(bookingServ.equalsIgnoreCase(city1)) {
-			
+			String combinedId=var+eventID+customerID+status;
 			int counter=0;
 			 ArrayList<String> total=(ArrayList<String>) cm.getusers(customerID);
 			 for(int i=0;i<total.size();i++) {
@@ -117,10 +127,12 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 					System.exit(0);
 				}
 			 }
-			 mn.UDPConnect(6001);
+			 mn.UDPConnect(6001,combinedId);
+			 
 			
 		}
 		else if(bookingServ.equalsIgnoreCase(city2)) {
+			String combinedId=var+eventID+customerID+status;
 			int counter=0;
 			 ArrayList<String> total=(ArrayList<String>) cm.getusers(customerID);
 			 for(int i=0;i<total.size();i++) {
@@ -135,7 +147,7 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 					System.exit(0);
 				}
 			 }
-			mn.UDPConnect(6002);
+			mn.UDPConnect(6002,combinedId);
 		} 
 		
 		
@@ -170,7 +182,10 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 			Sherbrooke mn=new Sherbrooke();
 		}
 		String var=mn.getHashMap(eventType);
-		
+		//remove them
+				String city1="QUE";
+				String city2="SHE";
+				
 		char[] ch1 = eventID.toCharArray();
 		char[] ch2 = { ch1[0], ch1[1], ch1[2] };
 		String bookingServ = new String(ch2);
@@ -180,10 +195,15 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 			mn.changeHashMap(var, eventID, customerID, status);
 			
 		}
-		
-		
-		
-		
+		else if(bookingServ.equalsIgnoreCase(city1)) {
+			String combinedId=var+eventID+customerID+status;
+			 mn.UDPConnect(6001,combinedId);
+	
+	}	else if(bookingServ.equalsIgnoreCase(city2)) {
+		String combinedId=var+eventID+customerID+status;
+		 mn.UDPConnect(6002,combinedId);
 	}
+
+}
 
 }
