@@ -40,9 +40,9 @@ public class Client1 {
 		{
 			//Check if its Manager or Client
 			if (ch[3] == 'M') {
-				System.out.print("Welcome Manager " + id1);
+				System.out.println("Welcome Manager " + id1);
 			} else if (ch[3] == 'C') {
-				System.out.print("Welcome Customer " + id1);
+				System.out.println("Welcome Customer " + id1);
 
 			}
 			
@@ -51,15 +51,15 @@ public class Client1 {
 			String serv = new String(ch1);// server identified
 
 			if (serv.equalsIgnoreCase("MTL")) {
-				System.out.print("Welcome to Montreal Server");
+				System.out.println("Welcome to Montreal Server");
 				ConnectionNumber=5555;
 
 			} else if (serv.equalsIgnoreCase("QUE")) {
-				System.out.print("Welcome to Quebec Server");
+				System.out.println("Welcome to Quebec Server");
 				ConnectionNumber=5556;
 				
 			} else if (serv.equalsIgnoreCase("SHE")) {
-				System.out.print("Welcome to Sherbrooke Server");
+				System.out.println("Welcome to Sherbrooke Server");
 				ConnectionNumber=5557;
 				
 			} else {
@@ -79,20 +79,30 @@ public class Client1 {
 						"2.getBookingSchedule"+"\n"+
 						"3.cancelEvent");
 			}
-			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-			int m=br.read();
-			
+			/*BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+			int m=br.read();*/
+			Scanner br=new Scanner(System.in);
+			int m=br.nextInt();
+					
 			if (ch[3] == 'M') {
 				Registry registry = LocateRegistry.getRegistry(ConnectionNumber);
 				Manager m1 = (Manager) registry.lookup("Function");
 				if(m==1){
-					
+					System.out.println("Enter eventID, eventType, bookingCapacity in the same order");
+					Scanner scin=new Scanner(System.in);
+					m1.addEvent(scin.next(), scin.next(), scin.nextInt(),serv);
 				}
 				else if(m==2){
+					System.out.println("Enter eventID, eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					m1.removeEvent(scin.next(), scin.next(),serv);
 					
 				}
 				else if(m==3){
-					
+					System.out.println("Enter eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					m1.listEventAvailability(scin.next(),serv);
+
 				}
 				else{
 					System.out.println("Wrong Inuput");
@@ -102,19 +112,29 @@ public class Client1 {
 				
 			} else if (ch[3] == 'C') {
 				Registry registry = LocateRegistry.getRegistry(ConnectionNumber);
-				Customer c1 = (Customer) registry.lookup("Addition");
+				Customer c1 = (Customer) registry.lookup("Function");
 				
 				if(m==1){
-					
+					System.out.println("Enter customerID, eventID, eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					c1.bookEvent(scin.next(), scin.next(), scin.next(),serv);
+
 				}
 				else if(m==2){
+					System.out.println("Enter customerID");
+					Scanner scin=new Scanner(System.in);
+					c1.getBookingSchedule(scin.next(),serv);
 					
+									
 				}
 				else if(m==3){
+					System.out.println("Enter customerID, eventID, eventType in the same order");
+					Scanner scin=new Scanner(System.in);
+					c1.cancelEvent(scin.next(), scin.next(), scin.next(),serv);
 					
 				}
 				else{
-					System.out.println("Wrong Inuput");
+					System.out.println("Wrong Input");
 					System.exit(0);
 				}
 
