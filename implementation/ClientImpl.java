@@ -83,10 +83,13 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 		char[] ch1 = eventID.toCharArray();
 		char[] ch2 = { ch1[0], ch1[1], ch1[2] };
 		String bookingServ = new String(ch2);
+		String status="book";
 		
 		if(bookingServ.equalsIgnoreCase(serv)){
-			mn.reduceHashMap(var, eventID, customerID);
+			mn.changeHashMap(var, eventID, customerID, status);
+			mn.Muser.put(eventID,customerID);
 		}
+		
 		
 		
 		
@@ -123,9 +126,10 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 		char[] ch1 = eventID.toCharArray();
 		char[] ch2 = { ch1[0], ch1[1], ch1[2] };
 		String bookingServ = new String(ch2);
+		String status="cancel";
 		
 		if(bookingServ.equalsIgnoreCase(serv)){
-			mn.reduceHashMap(var, eventID, customerID);
+			mn.changeHashMap(var, eventID, customerID, status);
 		}
 		
 	}
