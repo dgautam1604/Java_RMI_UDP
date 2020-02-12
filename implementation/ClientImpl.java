@@ -66,6 +66,7 @@ public class ClientImpl extends UnicastRemoteObject implements Customer, Manager
 		if(serv.equalsIgnoreCase("MTL")){
 			Montreal mn=new Montreal();
 			String var=mn.getHashMap(eventType);
+			mn.display(eventType);
 			
 			mn.UDPConnect(6001,var);
 			mn.UDPConnect(6002,var);

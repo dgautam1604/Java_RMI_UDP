@@ -13,9 +13,12 @@ public class Client1 {
 
 	public static void main(String args[]) throws Exception {
 		
-		int ConnectionNumber=5000;//default connection
+		while(true) {
+			int ConnectionNumber=5000;//default connection
 		System.out.print("Enter your id ");
 		Scanner sc = new Scanner(System.in);
+		
+		//ID to upper case
 		String id = sc.nextLine().toUpperCase();
 		char[] ch = id.toCharArray();
 		
@@ -23,12 +26,6 @@ public class Client1 {
 		char[] ch2 = { ch[4], ch[5], ch[6], ch[7] };
 		String id1 = new String(ch2);// validity of id needs to be checked
 
-		try {
-			int i = Integer.parseInt(id1.trim());
-		} catch (NumberFormatException nfe) {
-			System.out.println("NumberFormatException: " + nfe.getMessage());
-			System.exit(0);
-		}
 
 		// check length of ID
 		if (ch.length != 8) {
@@ -49,7 +46,7 @@ public class Client1 {
 			//To identify server
 			char[] ch1 = { ch[0], ch[1], ch[2] };
 			String serv = new String(ch1);// server identified
-
+			
 			if (serv.equalsIgnoreCase("MTL")) {
 				System.out.println("Welcome to Montreal Server");
 				ConnectionNumber=5555;
@@ -58,12 +55,14 @@ public class Client1 {
 				if(ch[3] == 'M'){
 					System.out.println("1.addEvent"+"\n"+
 							"2.removeEvent"+"\n"+
-							"3.listEventAvailability");
+							"3.listEventAvailability"+"\n"+
+							"4.Exit");
 				}
 				else if (ch[3] == 'C') {
 					System.out.println("1.bookEvent"+"\n"+
 							"2.getBookingSchedule"+"\n"+
-							"3.cancelEvent");
+							"3.cancelEvent"+"\n"+
+							"4.Exit");
 				}
 				/*BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 				int m=br.read();*/
@@ -74,24 +73,24 @@ public class Client1 {
 					Registry registry = LocateRegistry.getRegistry(ConnectionNumber);
 					Manager m1 = (Manager) registry.lookup("Function");
 					if(m==1){
-						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,Trade Show,Seminar) bookingCapacity in the same order");
+						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,TradeShow,Seminar) bookingCapacity in the same order");
 						Scanner scin=new Scanner(System.in);
 						m1.addEvent(scin.next(), scin.next(), scin.nextInt(),serv);
 					}
 					else if(m==2){
-						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						m1.removeEvent(scin.next(), scin.next(),serv);
 						
 					}
 					else if(m==3){
-						System.out.println("Enter  eventType(Conference,Trade Show,Seminar) ");
+						System.out.println("Enter  eventType(Conference,TradeShow,Seminar) ");
 						Scanner scin=new Scanner(System.in);
 						m1.listEventAvailability(scin.next(),serv);
 
 					}
 					else{
-						System.out.println("Wrong Inuput");
+						System.out.println("Bye");
 						System.exit(0);
 					}
 					
@@ -101,7 +100,7 @@ public class Client1 {
 					Customer c1 = (Customer) registry.lookup("Function");
 					
 					if(m==1){
-						System.out.println("Enter customerID(eg MTLC0001), eventID(eg MTLM0210), eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter customerID(eg MTLC0001), eventID(eg MTLM0210), eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						c1.bookEvent(scin.next(), scin.next(), scin.next(),serv);
 
@@ -114,7 +113,7 @@ public class Client1 {
 										
 					}
 					else if(m==3){
-						System.out.println("Enter customerID, eventID, eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter customerID, eventID, eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						c1.cancelEvent(scin.next(), scin.next(), scin.next(),serv);
 						
@@ -150,18 +149,18 @@ public class Client1 {
 					Registry registry = LocateRegistry.getRegistry(ConnectionNumber);
 					Manager m1 = (Manager) registry.lookup("Function");
 					if(m==1){
-						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,Trade Show,Seminar) bookingCapacity in the same order");
+						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,TradeShow,Seminar) bookingCapacity in the same order");
 						Scanner scin=new Scanner(System.in);
 						m1.addEvent(scin.next(), scin.next(), scin.nextInt(),serv);
 					}
 					else if(m==2){
-						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						m1.removeEvent(scin.next(), scin.next(),serv);
 						
 					}
 					else if(m==3){
-						System.out.println("Enter  eventType(Conference,Trade Show,Seminar) ");
+						System.out.println("Enter  eventType(Conference,TradeShow,Seminar) ");
 						Scanner scin=new Scanner(System.in);
 						m1.listEventAvailability(scin.next(),serv);
 
@@ -177,7 +176,7 @@ public class Client1 {
 					Customer c1 = (Customer) registry.lookup("Function");
 					
 					if(m==1){
-						System.out.println("Enter customerID(eg MTLC0001), eventID(eg MTLM0210), eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter customerID(eg MTLC0001), eventID(eg MTLM0210), eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						c1.bookEvent(scin.next(), scin.next(), scin.next(),serv);
 
@@ -190,7 +189,7 @@ public class Client1 {
 										
 					}
 					else if(m==3){
-						System.out.println("Enter customerID, eventID, eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter customerID, eventID, eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						c1.cancelEvent(scin.next(), scin.next(), scin.next(),serv);
 						
@@ -226,18 +225,18 @@ public class Client1 {
 					Registry registry = LocateRegistry.getRegistry(ConnectionNumber);
 					Manager m1 = (Manager) registry.lookup("Function");
 					if(m==1){
-						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,Trade Show,Seminar) bookingCapacity in the same order");
+						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,TradeShow,Seminar) bookingCapacity in the same order");
 						Scanner scin=new Scanner(System.in);
 						m1.addEvent(scin.next(), scin.next(), scin.nextInt(),serv);
 					}
 					else if(m==2){
-						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter eventID(eg MTLM0001), eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						m1.removeEvent(scin.next(), scin.next(),serv);
 						
 					}
 					else if(m==3){
-						System.out.println("Enter  eventType(Conference,Trade Show,Seminar) ");
+						System.out.println("Enter  eventType(Conference,TradeShow,Seminar) ");
 						Scanner scin=new Scanner(System.in);
 						m1.listEventAvailability(scin.next(),serv);
 
@@ -253,7 +252,7 @@ public class Client1 {
 					Customer c1 = (Customer) registry.lookup("Function");
 					
 					if(m==1){
-						System.out.println("Enter customerID(eg MTLC0001), eventID(eg MTLM0210), eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter customerID(eg MTLC0001), eventID(eg MTLM0210), eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						c1.bookEvent(scin.next(), scin.next(), scin.next(),serv);
 
@@ -266,7 +265,7 @@ public class Client1 {
 										
 					}
 					else if(m==3){
-						System.out.println("Enter customerID, eventID, eventType(Conference,Trade Show,Seminar) in the same order");
+						System.out.println("Enter customerID, eventID, eventType(Conference,TradeShow,Seminar) in the same order");
 						Scanner scin=new Scanner(System.in);
 						c1.cancelEvent(scin.next(), scin.next(), scin.next(),serv);
 						
@@ -292,6 +291,7 @@ public class Client1 {
 			 * 
 			 * n = obj.add(a, b); System.out.println("Addition is : " + n);
 			 */
+		}
 		}
 
 	}

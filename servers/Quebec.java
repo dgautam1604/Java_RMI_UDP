@@ -15,9 +15,9 @@ import common.Common;
 
 public class Quebec {
 	public static HashMap<String, String> eventList = new HashMap<String, String>();
-	HashMap<String, Integer> a = new HashMap<String, Integer>();
-	HashMap<String, Integer> b = new HashMap<String, Integer>();
-	HashMap<String, Integer> c = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> a = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> b = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> c = new HashMap<String, Integer>();
 	Common cm = new Common();
 	public HashMap<String, String> Muser = new HashMap<String, String>();// event id and customer id
 
@@ -28,7 +28,7 @@ public class Quebec {
 		System.out.println("Quebec Server is Up & Running");
 
 		eventList.put("Conference", "a");
-		eventList.put("Trade Show", "b");
+		eventList.put("TradeShow", "b");
 		eventList.put("Seminar", "c");
 
 		DatagramSocket MSocket = null;
@@ -44,15 +44,29 @@ public class Quebec {
 				Quebec m=new Quebec();
 				//byte[] fullid=request.getData();
 				String fullid=new String(request.getData());
+				//System.out.println("The message is "+fullid +fullid.length());
+				//print via udp
+				String var=fullid.substring(0, 1);
+				//System.out.println("The message is "+var + var.equalsIgnoreCase("a") +var.length());
 				
 				//print via udp
-				if(fullid.equalsIgnoreCase("a") || fullid.equalsIgnoreCase("b") || fullid.equalsIgnoreCase("c")){
+				if(var.equalsIgnoreCase("a") ){
 					 m.a.entrySet().forEach(entry->{
 				            System.out.println(entry.getKey() + " " + entry.getValue());  
 				         });
 				}
+				else if (var.equalsIgnoreCase("b")){
+					 m.b.entrySet().forEach(entry->{
+				            System.out.println(entry.getKey() + " " + entry.getValue());  
+				         });
+				}
+				else if (var.equalsIgnoreCase("c")){
+					 m.c.entrySet().forEach(entry->{
+				            System.out.println(entry.getKey() + " " + entry.getValue());  
+				         });
+				}
 				else{
-					String var=fullid.substring(0, 1);
+					
 					String eventID=fullid.substring(1, 9);
 					String customerID=fullid.substring(9, 17);
 					String status=fullid.substring(17);
@@ -83,21 +97,6 @@ public class Quebec {
 
 		String value = eventList.get(evenType);
 		System.out.println("List for event type "+value);
-		if(value.equalsIgnoreCase("a")){
-			a.entrySet().forEach(entry->{
-	            System.out.println(entry.getKey() + " " + entry.getValue());  
-	         });
-		}
-		else if(value.equalsIgnoreCase("b")){
-			b.entrySet().forEach(entry->{
-	            System.out.println(entry.getKey() + " " + entry.getValue());  
-	         });
-		}
-		else if(value.equalsIgnoreCase("c")){
-			c.entrySet().forEach(entry->{
-	            System.out.println(entry.getKey() + " " + entry.getValue());  
-	         });
-		}
 
 		return value;
 
@@ -281,10 +280,29 @@ public class Quebec {
 		finally {if(aSocket != null) aSocket.close();}
 	}
 	
-	/*public void display(String var){
-		var.entrySet().forEach(entry->{
-            System.out.println(entry.getKey() + " " + entry.getValue());  
-         });
+	public void display(String evenType){
+		
+
+		String value = eventList.get(evenType);
+		System.out.println("List for event type "+value);
+		if(value.equalsIgnoreCase("a")){
+			a.entrySet().forEach(entry->{
+	            System.out.println(entry.getKey() + " " + entry.getValue());  
+	         });
+		}
+		else if(value.equalsIgnoreCase("b")){
+			b.entrySet().forEach(entry->{
+	            System.out.println(entry.getKey() + " " + entry.getValue());  
+	         });
+		}
+		else if(value.equalsIgnoreCase("c")){
+			c.entrySet().forEach(entry->{
+	            System.out.println(entry.getKey() + " " + entry.getValue());  
+	         });
+		}
+		
+		
 	
-	}*/
+
+}
 }	
